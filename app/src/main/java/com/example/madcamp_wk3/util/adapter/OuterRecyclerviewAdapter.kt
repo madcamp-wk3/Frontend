@@ -13,26 +13,26 @@ class OuterRecyclerviewAdapter(private val sectionList: MutableList<Section>) :
     RecyclerView.Adapter<OuterRecyclerviewAdapter.OuterViewHolder>() {
 
     inner class OuterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        val outerRecyclerview: RecyclerView = itemView.findViewById(R.id.outerRecyclerview)
+        val sectionTitle : TextView = itemView.findViewById(R.id.sectionTitle)
+        val innerRecyclerView: RecyclerView = itemView.findViewById(R.id.innerRecyclerView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OuterViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_home, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.tab1_outer_recyclerview_item, parent, false)
         return OuterViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: OuterViewHolder, position: Int) {
 
         val section = sectionList[position]
+        holder.sectionTitle.text = section.section_title
         // LayoutManager 중복 생성 방지
-        if (holder.outerRecyclerview.layoutManager == null) {
-            holder.outerRecyclerview.layoutManager = LinearLayoutManager(
-                holder.itemView.context, LinearLayoutManager.HORIZONTAL, false
-            )
-        }
+        //if (holder.outerRecyclerview.layoutManager == null) {
+        holder.innerRecyclerView.layoutManager = LinearLayoutManager(
+                holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
+        holder.innerRecyclerView.adapter=InnerRecyclerviewAdapter(section.items)
 
-        holder.outerRecyclerview.adapter = InnerRecyclerviewAdapter(section.items)
+
         //holder.outerRecyclerview.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
 
 
