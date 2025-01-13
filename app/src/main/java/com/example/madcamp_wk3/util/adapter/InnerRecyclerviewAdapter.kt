@@ -19,7 +19,7 @@ class InnerRecyclerviewAdapter(private val itemList: List<NewsItem> = emptyList(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.tab1_item_news, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.tab1_inner_recyclerview_item, parent, false)
         return InnerViewHolder(view)
     }
 
