@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Network Graph</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src = "graph.js"></script>
+</head>
+<body>
+<script>
+    let svg = d3.select("body").append("svg")
+        .attr("width", window.innerWidth)
+        .attr("height", window.innerHeight);
+
+    let simulation, link, node;
+
+    function updateGraph(nodes, links) {
+    console.log("Updating graph with nodes:", nodes);
+    console.log("Updating graph with links:", links);
+
+    // Assign random positions to each node before force simulation
+    nodes.forEach(node => {
+        node.x = Math.random() * window.innerWidth;
+        node.y = Math.random() * window.innerHeight;
+    });
+
+    // Clear previous SVG elements
+    svg.selectAll("*").remove();
+
+    // Create force simulation
+    simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(d => d.id).distance(100))
+        .force("charge", d3.forceManyBody().strength(-300))
+        .force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2));
+
+    // Create links
+    link = svg.append("g")
+        .attr("stroke", "#aaa")
+        .attr("stroke-width", 2)
+        .selectAll("line")
+        .data(links)
+        .enter().append("line");
+
+    // Create nodes (circles)
+    let node = svg.append("g")
+        .selectAll("g")
+        .data(nodes)
+        .enter().append("g");  // Group for circle + text
+
+    // Append circles inside the group
+    node.append("circle")
+        .attr("r", d => d.size)  // Node size
+        .attr("fill", "#69b3a2")
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1.5);
+
+    // Append text inside the node circles
+    node.append("text")
+        .text(d => d.id)  // Use node ID as label
+        .attr("text-anchor", "middle")  // Center horizontally
+        .attr("dominant-baseline", "middle")  // Center vertically
+        .attr("fill", "#ffffff")  // Text color (white)
+        .attr("font-size", "12px")
+        .attr("font-weight", "bold");
+
+    // Update positions on tick
+    simulation.on("tick", () => {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        node.attr("transform", d => `translate(${d.x},${d.y})`);  // Move circles & text together
+    });
+}
+
+    // Call updateGraph() with sample data initially (optional)
+    updateGraph(
+        [{ id: "Node 0", size: 10 }, { id: "Node 1", size: 15 }],
+        [{ source: "Node 0", target: "Node 1" }]
+    );
+</script>
+</body>
+</html>
