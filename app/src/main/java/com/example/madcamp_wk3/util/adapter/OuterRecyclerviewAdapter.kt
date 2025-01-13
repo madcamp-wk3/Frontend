@@ -32,7 +32,7 @@ class OuterRecyclerviewAdapter(private val sectionList: MutableList<Section>) :
             )
         }
 
-        holder.outerRecyclerview.adapter = InnerRecyclerviewAdapter(section.items)
+        holder.outerRecyclerview.adapter = InnerRecyclerviewAdapter(section.newsItems ?: emptyList())
         //holder.outerRecyclerview.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
 
 

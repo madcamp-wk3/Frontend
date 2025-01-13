@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.madcamp_wk3.R
 import com.example.madcamp_wk3.util.NewsItem
 
-class InnerRecyclerviewAdapter(private val itemList: List<NewsItem>) :
+class InnerRecyclerviewAdapter(private val itemList: List<NewsItem> = emptyList()) :
     RecyclerView.Adapter<InnerRecyclerviewAdapter.InnerViewHolder>() {
 
     inner class InnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -25,7 +25,7 @@ class InnerRecyclerviewAdapter(private val itemList: List<NewsItem>) :
 
     override fun onBindViewHolder(holder: InnerViewHolder, position: Int) {
         val news = itemList[position]
-        holder.textView.text = news.newsTitle
+        holder.textView.text = news.title
         Glide.with(holder.imageView.context)
             .load(news.imageUrl)
             .into(holder.imageView)
