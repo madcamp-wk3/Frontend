@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -58,7 +59,10 @@ dependencies {
     implementation ("androidx.core:core:1.12.0") // 최신 버전 확인
     implementation ("androidx.multidex:multidex:2.0.1")
 
-
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 }

@@ -9,7 +9,7 @@
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="게임" />
+        android:title="한눈에 경제" />
 
     <item
         android:id="@+id/navigation_notifications"
