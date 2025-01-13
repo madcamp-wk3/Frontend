@@ -40,7 +40,9 @@ class HomeFragment : Fragment() {
 
 
         // 더미 데이터 추가
-        initializeDummyData()
+        if (sectionList.isEmpty()) {
+            initializeDummyData()
+        }
 
         // RecyclerView 설정
         binding.outerRecyclerview.layoutManager = LinearLayoutManager(requireContext())
@@ -60,10 +62,6 @@ class HomeFragment : Fragment() {
         return root
 
     }
-
-
-
-
     private fun initializeDummyData() {
         val section1Items = mutableListOf(
             NewsItem("잘나가던 자동차株…환율 급등, 전기차 캐즘, 트럼프 2기에 긴장", "https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202501/13/mk/20250113150906097rvvc.png"),
