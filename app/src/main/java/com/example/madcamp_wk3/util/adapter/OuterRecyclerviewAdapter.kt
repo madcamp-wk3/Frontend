@@ -25,12 +25,12 @@ class OuterRecyclerviewAdapter(private val sectionList: MutableList<Section>) :
     override fun onBindViewHolder(holder: OuterViewHolder, position: Int) {
 
         val section = sectionList[position]
-        holder.sectionTitle.text = section.section_title
+        holder.sectionTitle.text = section.title
         // LayoutManager 중복 생성 방지
         //if (holder.outerRecyclerview.layoutManager == null) {
         holder.innerRecyclerView.layoutManager = LinearLayoutManager(
                 holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
-        holder.innerRecyclerView.adapter=InnerRecyclerviewAdapter(section.newsItems)
+        holder.innerRecyclerView.adapter=InnerRecyclerviewAdapter(section.newsItems ?: emptyList())
 
 
         //holder.outerRecyclerview.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
