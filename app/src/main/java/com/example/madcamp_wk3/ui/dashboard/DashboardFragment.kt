@@ -1,7 +1,6 @@
 package com.example.madcamp_wk3.ui.dashboard
 
 import android.os.Bundle
-import android.os.Debug
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.madcamp_wk3.databinding.FragmentDashboardBinding
@@ -18,32 +16,31 @@ import com.google.gson.Gson
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
+        val dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val webView : WebView = binding.webView
+        val webView: WebView = binding.webView
         setUpWebView(webView)
 
-        // local html 파일 로드 - fragment위에 올리는 올리는 정적인 페이지
+        // Load the local HTML file
         webView.loadUrl("file:///android_asset/network_graph.html")
 
-
-        val nodes = generateNodes(10) // 노드 10개 생성
+        // Generate dynamic nodes and links
+        val nodes = generateNodes(10) // Generate 10 nodes
         val links = generateLinks(nodes)
 
-        updateGraph(webView, nodes, links)
+        // Delay sending data to WebView (wait for HTML to load)
+        webView.postDelayed({
+            updateGraph(webView, nodes, links)
+        }, 2000) // 2 seconds delay to ensure WebView is fully loaded
 
         return root
     }
@@ -54,37 +51,32 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setUpWebView(webView: WebView) {
-        webView.webViewClient = WebViewClient() // WebView 내부 링크 처리
+        webView.webViewClient = WebViewClient() // WebView internal links handling
         val webSettings: WebSettings = webView.settings
-        webSettings.javaScriptEnabled = true // JavaScript 활성화
+        webSettings.javaScriptEnabled = true // Enable JavaScript
     }
 
-
-    private fun updateGraph(webView: WebView,
-                            nodes: List<Map<String, Any>>,
-                            links: List<Map<String, String>>) {
+    private fun updateGraph(webView: WebView, nodes: List<Map<String, Any>>, links: List<Map<String, String>>) {
         val jsonNodes = Gson().toJson(nodes)
         val jsonLinks = Gson().toJson(links)
-        webView.evaluateJavascript("updateGraph($jsonNodes, $jsonLinks)", null)
+
+        val jsCommand = "updateGraph($jsonNodes, $jsonLinks);"
+        webView.evaluateJavascript(jsCommand, null)
 
         Log.d("WebView", "Nodes: $jsonNodes")
         Log.d("WebView", "Links: $jsonLinks")
-
-
     }
 
     private fun generateNodes(count: Int): List<Map<String, Any>> {
-        // 동적 노드 데이터 생성
         return List(count) { index ->
             mapOf(
                 "id" to "Node $index",
-                "size" to (5 + index * 2) // 크기를 다르게 설정
+                "size" to (5 + index * 2) // Dynamic size
             )
         }
     }
 
     private fun generateLinks(nodes: List<Map<String, Any>>): List<Map<String, String>> {
-        // 동적 링크 데이터 생성 (노드 간 연결)
         return nodes.windowed(2, 1) { pair ->
             mapOf(
                 "source" to pair[0]["id"].toString(),
@@ -92,5 +84,4 @@ class DashboardFragment : Fragment() {
             )
         }
     }
-
 }
