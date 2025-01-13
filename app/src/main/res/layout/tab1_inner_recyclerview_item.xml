@@ -4,25 +4,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
     <!-- 뉴스 이미지 -->
     <ImageView
         android:id="@+id/NewsImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 뉴스 제목 -->
     <TextView
         android:id="@+id/NewsTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="108dp"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:ellipsize="none"
+        android:singleLine="false"
+        android:maxLines="3"
+        android:scrollHorizontally="false"
         android:text="뉴스 제목"
+        android:textStyle="bold"
+        android:inputType="textMultiLine"
+        android:breakStrategy="simple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/NewsImage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
