@@ -16,6 +16,8 @@
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
 
+        <activity android:name=".ui.login.SignupActivity" />
+        <activity android:name=".ui.login.LoginActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

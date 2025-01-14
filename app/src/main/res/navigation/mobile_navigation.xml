@@ -18,9 +18,9 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
-    <fragment
+    <activity
         android:id="@+id/navigation_notifications"
-        android:name="com.example.madcamp_wk3.ui.login.LoginFragment"
+        android:name="com.example.madcamp_wk3.ui.login.LoginActivity"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_login" />
 </navigation>
