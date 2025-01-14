@@ -36,10 +36,34 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose =true
     }
-}
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.0"
+
+}}
 
 dependencies {
+
+    implementation ("androidx.compose.ui:ui:1.5.0")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0")
+    implementation ("androidx.compose.foundation:foundation:1.5.0")
+
+    // Material Design 3 for Compose
+    implementation ("androidx.compose.material3:material3:1.1.1")
+
+    // Activity Compose (needed for setContent in an Activity)
+    implementation ("androidx.activity:activity-compose:1.7.2")
+
+    // Lifecycle support for Jetpack Compose
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+
+    // Compose Compiler (ensure compatibility)
+    implementation ("androidx.compose.compiler:compiler:1.5.0")
+
+
+
+
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
@@ -51,6 +75,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.6")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
