@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.gms.google-services")
+    //id("com.google.gms.google-services")
 }
 
 android {
@@ -62,7 +62,16 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
 
-    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
-    implementation("com.google.firebase:firebase-analytics")
+//    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+//    implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    implementation ("com.android.volley:volley:1.2.1")
+
+//
+//    implementation ("com.google.firebase:firebase-analytics:21.4.0")
+//    implementation ("com.google.firebase:firebase-auth:21.5.0")
+//    implementation ("com.google.firebase:firebase-database:20.3.0")
+//    implementation ("com.google.firebase:firebase-storage:20.2.0")
+//    implementation ("com.google.firebase:firebase-firestore:24.7.0")
 }
