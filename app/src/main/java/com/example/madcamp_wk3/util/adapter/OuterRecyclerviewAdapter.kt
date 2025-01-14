@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp_wk3.R
 import com.example.madcamp_wk3.util.Section
 
-class OuterRecyclerviewAdapter(private val sectionList: MutableList<Section>) :
-    RecyclerView.Adapter<OuterRecyclerviewAdapter.OuterViewHolder>() {
+class OuterRecyclerviewAdapter : RecyclerView.Adapter<OuterRecyclerviewAdapter.OuterViewHolder>() {
+
+    private val fixedCategories = listOf("경기", "정치", "사회", "경제", "국제", "과학") // ✅ Six fixed sections
+
 
     inner class OuterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val sectionTitle : TextView = itemView.findViewById(R.id.sectionTitle)
+        val sectionTitle: TextView = itemView.findViewById(R.id.sectionTitle)
         val innerRecyclerView: RecyclerView = itemView.findViewById(R.id.innerRecyclerView)
     }
 
@@ -23,23 +25,23 @@ class OuterRecyclerviewAdapter(private val sectionList: MutableList<Section>) :
     }
 
     override fun onBindViewHolder(holder: OuterViewHolder, position: Int) {
+        val category = fixedCategories[position] // ✅ Always use fixed categories
 
-        val section = sectionList[position]
+        // Find news items belonging to this category, or use an empty list if not found
+        val section = sectionList.find { it.title == category } ?: Section(category, emptyList())
+
         holder.sectionTitle.text = section.title
-        // LayoutManager 중복 생성 방지
-        //if (holder.outerRecyclerview.layoutManager == null) {
+
         holder.innerRecyclerView.layoutManager = LinearLayoutManager(
-                holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
-        holder.innerRecyclerView.adapter=InnerRecyclerviewAdapter(section.newsItems ?: emptyList())
-
-
-        //holder.outerRecyclerview.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
-
-
-
+            holder.itemView.context, LinearLayoutManager.HORIZONTAL, false
+        )
+        holder.innerRecyclerView.adapter = InnerRecyclerviewAdapter(section.newsItems)
     }
 
     override fun getItemCount(): Int {
-        return sectionList.size
+        return fixedCategories.size // ✅ Always return 6
     }
+
+    // 🔥 Update data without affecting fixed sections
+
 }

@@ -1,49 +1,3 @@
-//package com.example.madcamp_wk3.ui.notifications
-//
-//import android.os.Bundle
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import androidx.fragment.app.Fragment
-//import androidx.lifecycle.ViewModelProvider
-//import com.example.madcamp_wk3.databinding.FragmentLoginBinding
-//import com.google.android.gms.auth.api.signin.GoogleSignIn
-//import com.google.android.gms.auth.api.signin.GoogleSignInClient
-//import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-//import com.google.android.gms.auth.api.signin.internal.GoogleSignInOptionsExtensionParcelable
-//
-//class LoginFragment : Fragment() {
-//
-//    private var _binding: FragmentLoginBinding? = null
-//    private lateinit var googleSignInClient: GoogleSignInClient
-//
-//    // This property is only valid between onCreateView and
-//    // onDestroyView.
-//    private val binding get() = _binding!!
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        val notificationsViewModel =
-//            ViewModelProvider(this).get(NotificationsViewModel::class.java)
-//
-//        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-//
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestEmail() // 이메일 요청
-//            .build()
-//        googleSignInClient = GoogleSignIn.getClient(this, gso)
-//        val root: View = binding.root
-//        return root
-//    }
-//
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
-//}
 
 package com.example.madcamp_wk3.ui.notifications
 
@@ -63,47 +17,63 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.madcamp_wk3.R
 import com.example.madcamp_wk3.databinding.FragmentLoginBinding
+import com.example.madcamp_wk3.network.ApiService
+import com.example.madcamp_wk3.network.LoginResponse
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.identity.SignInCredential
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import com.example.madcamp_wk3.network.TokenRequest
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private lateinit var oneTapClient: SignInClient
     private lateinit var signInLauncher: ActivityResultLauncher<IntentSenderRequest>
-
     private val binding get() = _binding!!
+
+    // ✅ Retrofit API Service
+    private val apiService: ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl("http://10.0.2.2:8000/") // Emulator: Use this instead of 127.0.0.1
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Google Identity Services 초기화
+        // ✅ Initialize Google Sign-In
         oneTapClient = Identity.getSignInClient(requireContext())
 
-        // ActivityResultLauncher 초기화
+        // ✅ ActivityResultLauncher setup
         signInLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 try {
                     val credential = oneTapClient.getSignInCredentialFromIntent(result.data)
                     handleSignInSuccess(credential)
                 } catch (e: Exception) {
-                    Log.e("GoogleSignIn", "로그인 실패: ${e.message}")
-                    Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
+                    Log.e("GoogleSignIn", "❌ Login Failed: ${e.message}")
+                    Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(context, "Google 로그인 취소", Toast.LENGTH_SHORT).show()
+                Log.e("GoogleSignIn", "❌ Google Login Canceled")
+                Toast.makeText(context, "Google Login Canceled", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Google 로그인 버튼 클릭 이벤트
+        // ✅ Google Login Button Click
         binding.btnGoogleSignIn.setOnClickListener {
             startGoogleSignIn()
         }
@@ -116,7 +86,7 @@ class LoginFragment : Fragment() {
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
-                    .setServerClientId(getString(R.string.server_client_id)) // OAuth 클라이언트 ID
+                    .setServerClientId(getString(R.string.server_client_id)) // OAuth Client ID
                     .setFilterByAuthorizedAccounts(false)
                     .build()
             )
@@ -129,21 +99,52 @@ class LoginFragment : Fragment() {
                     val intentSenderRequest = IntentSenderRequest.Builder(result.pendingIntent).build()
                     signInLauncher.launch(intentSenderRequest)
                 } catch (e: IntentSender.SendIntentException) {
-                    Log.e("GoogleSignIn", "로그인 시작 실패: ${e.message}")
-                    Toast.makeText(context, "로그인 시작 실패", Toast.LENGTH_SHORT).show()
+                    Log.e("GoogleSignIn", "❌ Login Start Failed: ${e.message}")
+                    Toast.makeText(context, "Login Start Failed", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener { e ->
-                Log.e("GoogleSignIn", "로그인 요청 실패: ${e.message}")
-                Toast.makeText(context, "로그인 요청 실패", Toast.LENGTH_SHORT).show()
+                Log.e("GoogleSignIn", "❌ Login Request Failed: ${e.message}")
+                Toast.makeText(context, "Login Request Failed", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun handleSignInSuccess(credential: SignInCredential) {
+        val idToken = credential.googleIdToken
         val email = credential.id
         val displayName = credential.displayName
-        Log.d("GoogleSignIn", "로그인 성공: $displayName, $email")
-        Toast.makeText(context, "환영합니다, $displayName!", Toast.LENGTH_SHORT).show()
+
+        Log.d("GoogleSignIn", "✅ Login Success: $displayName, $email")
+
+        if (idToken != null) {
+            Log.d("GoogleSignIn", "📩 Sending ID Token to Backend: $idToken")
+            sendIdTokenToBackend(idToken)
+        } else {
+            Log.e("GoogleSignIn", "❌ ID Token is NULL")
+        }
+    }
+
+    private fun sendIdTokenToBackend(idToken: String) {
+        val request = TokenRequest(idToken)
+
+        apiService.googleLogin(request).enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    Log.d("GoogleSignIn", "✅ Server Response: ${loginResponse?.message}")
+                    Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("GoogleSignIn", "❌ Server Error: $errorBody")
+                    Toast.makeText(context, "Server Error: $errorBody", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e("GoogleSignIn", "❌ Network Error: ${t.message}")
+                Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onDestroyView() {

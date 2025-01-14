@@ -1,6 +1,5 @@
 package com.example.madcamp_wk3.ui.dashboard
 
-import NewsGraphScreen
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,44 +12,36 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.observe
-import com.example.madcamp_wk3.ui.dashboard.DashboardViewModel
-
+import com.example.madcamp_wk3.util.Section
 
 class DashboardFragment : Fragment() {
-
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var viewModel: DashboardViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+        viewModel.fetchNews()
 
         return ComposeView(requireContext()).apply {
             setContent {
-                DashboardScreen(dashboardViewModel)
+                val sections by viewModel.newsSections.observeAsState(initial = emptyList())
+                DashboardScreen(sections)
             }
         }
     }
 }
 
 @Composable
-fun DashboardScreen(viewModel: DashboardViewModel) {
-    val newsArticles by viewModel.newsArticles.observeAsState(emptyList())
-
+fun DashboardScreen(sections: List<Section>) {
     Column(modifier = Modifier.fillMaxSize()) {
-        if (newsArticles.isNotEmpty()) {
-            NewsGraphScreen(newsArticles) // ✅ Now correctly passing newsArticles
+        if (sections.isEmpty()) {
+            Text("Loading...", Modifier.padding(16.dp))
         } else {
-            Text("Loading News...", modifier = Modifier.padding(16.dp))
+            sections.forEach { section ->
+                Text("Section: ${section.title}")
+            }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewDashboardScreen() {
-    DashboardScreen(viewModel = DashboardViewModel())
 }
