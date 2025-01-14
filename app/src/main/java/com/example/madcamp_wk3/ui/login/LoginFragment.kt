@@ -1,8 +1,6 @@
-package com.example.madcamp_wk3.ui.notifications
+package com.example.madcamp_wk3.ui.login
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
@@ -11,23 +9,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.madcamp_wk3.R
-import com.example.madcamp_wk3.databinding.FragmentHomeBinding
 import com.example.madcamp_wk3.databinding.FragmentLoginBinding
+import com.example.madcamp_wk3.network.RetrofitClient
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.identity.SignInCredential
 import org.json.JSONObject
+import retrofit2.Call
 
 class LoginFragment : Fragment() {
 
@@ -38,6 +34,9 @@ class LoginFragment : Fragment() {
     private lateinit var loginId : EditText
     private lateinit var loginPw : EditText
 
+    private lateinit var username : String
+    private lateinit var password : String
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -47,6 +46,8 @@ class LoginFragment : Fragment() {
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        loginId = binding.loginId
+        loginPw = binding.loginPw
 
         // Google Identity Services 초기화
         oneTapClient = Identity.getSignInClient(requireContext())
@@ -147,41 +148,32 @@ class LoginFragment : Fragment() {
 
     private fun loginService() {
         // EditText에서 입력값 가져오기
-        val username = loginId.text.toString()
-        val password = loginPw.text.toString()
+        username = loginId.text.toString()
+        password = loginPw.text.toString()
+        Log.d("LoginService heeju", "${username} and ${password} get")
 
-        // 서버 URL
-        val url = "http://127.0.0.1:8000/login" // FastAPI 서버 주소
-        val requestBody = JSONObject()
-        requestBody.put("username", username)
-        requestBody.put("password", password)
+        // 요청 데이터 생성
+        val loginRequest = Login.LoginRequest(username = username, password = password)
 
-        // 요청 생성
-        val requestQueue = Volley.newRequestQueue(requireContext())
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.POST, url, requestBody,
-            { response ->
-                // 로그인 성공 시 처리
-                val message = response.getString("message")
-                val user = response.getString("username")
-                Toast.makeText(context, "Welcome, $user!", Toast.LENGTH_SHORT).show()
-                Log.d("LoginService", "Response: $message")
-            },
-            { error ->
-                // 로그인 실패 시 처리
-                val errorMessage = error.networkResponse?.statusCode?.let {
-                    when (it) {
-                        401 -> "Invalid username or password"
-                        else -> "Server error"
-                    }
-                } ?: "Network error"
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-                Log.e("LoginService", "Error: ${error.message}")
+        // Retrofit API 호출
+        RetrofitClient.loginApi.login(loginRequest).enqueue(object : retrofit2.Callback<Login.LoginResponse> {
+            override fun onResponse(call: Call<Login.LoginResponse>, response: retrofit2.Response<Login.LoginResponse>) {
+                Log.d("LoginService heeju", "api 호출")
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    Toast.makeText(context, "Welcome, ${loginResponse?.username}!", Toast.LENGTH_SHORT).show()
+                    Log.d("LoginService heeju", "Response: ${loginResponse?.message}")
+                } else {
+                    Toast.makeText(context, "Invalid username or password", Toast.LENGTH_SHORT).show()
+                    Log.e("LoginService heeju", "Error: ${response.errorBody()?.string()}")
+                }
             }
-        )
 
-        // 요청 큐에 추가
-        requestQueue.add(jsonObjectRequest)
+            override fun onFailure(call: Call<Login.LoginResponse>, t: Throwable) {
+                Toast.makeText(context, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("LoginService", "Failure: ${t.message}")
+            }
+        })
     }
 
 

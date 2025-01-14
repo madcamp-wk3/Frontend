@@ -15,7 +15,7 @@ class InnerRecyclerviewAdapter(private val itemList: List<NewsItem> = emptyList(
 
     inner class InnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.NewsTitle)
-        val imageView : ImageView = itemView.findViewById(R.id.NewsImage)
+        //val imageView : ImageView = itemView.findViewById(R.id.NewsImage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerViewHolder {
@@ -26,9 +26,9 @@ class InnerRecyclerviewAdapter(private val itemList: List<NewsItem> = emptyList(
     override fun onBindViewHolder(holder: InnerViewHolder, position: Int) {
         val news = itemList[position]
         holder.textView.text = news.title
-        Glide.with(holder.imageView.context)
-            .load(news.imageUrl)
-            .into(holder.imageView)
+//        Glide.with(holder.imageView.context)
+//            .load(news.imageUrl)
+//            .into(holder.imageView)
     }
 
     override fun getItemCount(): Int {

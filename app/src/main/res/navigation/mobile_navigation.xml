@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.madcamp_wk3.ui.notifications.LoginFragment"
+        android:name="com.example.madcamp_wk3.ui.login.LoginFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_login" />
 </navigation>
