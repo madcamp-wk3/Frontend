@@ -13,6 +13,8 @@
         android:layout_marginTop="104dp"
         android:text="Econ"
         android:textSize="50dp"
+        android:textColor="#2A38D2"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,18 +24,20 @@
         android:id="@+id/loginId"
         android:layout_width="320dp"
         android:layout_height="50dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="216dp"
         android:background="@drawable/edit_text"
+        app:layout_constraintBottom_toTopOf="@+id/loginPw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/loginPw"
         android:layout_width="320dp"
         android:layout_height="50dp"
-        android:layout_marginTop="330dp"
+        android:layout_marginTop="296dp"
         android:background="@drawable/edit_text"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/loginBtn"
@@ -41,12 +45,13 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.058" />
 
     <android.widget.Button
         android:id="@+id/loginBtn"
         android:layout_width="320dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="188dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@null"
         android:gravity="center"
@@ -58,10 +63,10 @@
         app:endIconMode="password_toggle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.604"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.684" />
+        app:layout_constraintTop_toBottomOf="@+id/econ"
+        app:layout_constraintVertical_bias="0.655" />
 
     <ImageButton
         android:id="@+id/btnGoogleSignIn"
@@ -70,9 +75,26 @@
         android:background="@drawable/google_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-        app:layout_constraintVertical_bias="0.137" />
+        app:layout_constraintVertical_bias="0.254" />
+
+    <android.widget.Button
+        android:id="@+id/signUpBtn"
+        android:layout_width="181dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="252dp"
+        android:text="Econ이 처음이신가요?"
+        android:textColor="#2A38D2"
+        android:textFontWeight="600"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.834"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+        app:layout_constraintVertical_bias="0.533" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

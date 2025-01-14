@@ -77,6 +77,10 @@ class LoginFragment : Fragment() {
         binding.loginBtn.setOnClickListener{
             loginService()
         }
+        
+        binding.signUpBtn.setOnClickListener{
+            signUpService()
+        }
         return root
     }
 
@@ -87,7 +91,7 @@ class LoginFragment : Fragment() {
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setServerClientId("1007643601883-kf6s28beaotuv83d3bs61hkufomo73jc.apps.googleusercontent.com")
-                    .setFilterByAuthorizedAccounts(true)
+                    .setFilterByAuthorizedAccounts(false)
                     .build()
             )
             //.setAutoSelectEnabled(false)
@@ -174,6 +178,10 @@ class LoginFragment : Fragment() {
                 Log.e("LoginService", "Failure: ${t.message}")
             }
         })
+    }
+    
+    private fun signUpService(){
+        // SignupFragment로 이동
     }
 
 
