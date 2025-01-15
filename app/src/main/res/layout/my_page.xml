@@ -11,7 +11,7 @@
         android:layout_marginStart="36dp"
         android:text="사용자님 안녕하세요"
         android:id="@+id/userName"
-        android:textSize="20sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/logoutBtn"
         app:layout_constraintHorizontal_bias="0.464"
@@ -19,18 +19,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.132" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/logoutBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="로그아웃"
+        android:layout_width="94dp"
+        android:layout_height="39dp"
         android:background="@drawable/rounded_button"
+        android:gravity="center"
+        android:text="로그아웃"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.869"
+        app:layout_constraintHorizontal_bias="0.892"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.124" />
+        app:layout_constraintVertical_bias="0.132" />
 
     <android.widget.Button
         android:layout_width="288dp"
@@ -38,7 +42,9 @@
         android:layout_marginTop="240dp"
         android:text="나의 정보 수정"
         android:textColor="#FFFFFF"
+        android:textSize="16sp"
         android:gravity="center"
+        android:textStyle="bold"
         android:textAlignment="center"
         android:background="@drawable/rounded_button"
         app:layout_constraintBottom_toTopOf="@+id/button"
@@ -51,6 +57,8 @@
     <android.widget.Button
         android:id="@+id/button"
         android:layout_width="288dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
         android:layout_height="45dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@null"
@@ -68,8 +76,10 @@
         android:gravity="center"
         android:textAlignment="center"
         android:layout_width="288dp"
+        android:textSize="16sp"
         android:layout_height="45dp"
         android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:layout_marginTop="68dp"
         android:text="나의 기사"
         android:background="@drawable/rounded_button"

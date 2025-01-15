@@ -7,6 +7,7 @@ object JwtUtils {
     private const val PREF_NAME = "LoginPrefs"
     private const val KEY_JWT_TOKEN = "jwt_token"
     private const val KEY_IS_LOGGED_IN = "is_logged_in"
+    private const val KEY_USERNAME = "username"
 
     private fun getPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -27,8 +28,14 @@ object JwtUtils {
         return getPreferences(context).getBoolean(KEY_IS_LOGGED_IN, false)
     }
 
-    fun saveUsernameToPreferences(username : String){
+    fun saveUsername(context: Context, username: String) {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_USERNAME, username).apply()
+    }
 
+    fun getUsername(context: Context): String? {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        return prefs.getString(KEY_USERNAME, null)
     }
 
     fun logout(context: Context) {
