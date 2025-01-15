@@ -9,10 +9,15 @@
         android:id="@+id/messageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="250dp"
+        android:padding="8dp"
+        android:textColor="@android:color/black"
         android:background="@drawable/chat_bubble_user"
-        android:padding="12dp"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:inputType="textMultiLine"
+        android:breakStrategy="simple"
+        android:maxLines="10"/>
 
     <ImageView
         android:id="@+id/userIcon"
