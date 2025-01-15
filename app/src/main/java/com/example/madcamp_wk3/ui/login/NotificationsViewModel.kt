@@ -1,4 +1,4 @@
-package com.example.madcamp_wk3.ui.notifications
+package com.example.madcamp_wk3.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
