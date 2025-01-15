@@ -2,6 +2,7 @@ package com.example.madcamp_wk3.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.madcamp_wk3.databinding.MyPageBinding
 import com.example.madcamp_wk3.utils.JwtUtils
@@ -17,7 +18,8 @@ class MyPageActivity : AppCompatActivity() {
         }
 
 
-        //binding.userName.text="${}님 안녕하세요!"
+        val username = JwtUtils.getUsername(this) // 저장된 username 가져오기
+        binding.userName.text = "$username 님 안녕하세요:D!"
     }
 
     private fun logout(){
