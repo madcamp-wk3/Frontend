@@ -1,19 +1,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
     <!-- Chat RecyclerView -->
+    <TextView
+        android:id="@+id/econ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Econ"
+        android:textSize="35dp"
+        android:textColor="#2A38D2"
+        android:textStyle="bold"
+
+         />
+    <!-- Chat Input and Send Button -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_below="@id/econ"
         android:layout_above="@+id/inputContainer"
-        android:layout_alignParentTop="true"
+
+        android:layout_marginTop="-1dp"
+        android:layout_marginBottom="17dp"
+        android:background="@color/white"
         android:scrollbars="vertical" />
 
-    <!-- Chat Input and Send Button -->
     <LinearLayout
         android:id="@+id/inputContainer"
         android:layout_width="match_parent"
@@ -21,7 +37,7 @@
         android:layout_above="@id/bottomNavigationView"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="@drawable/rounded_transparent_edge"
+        android:background="@android:color/white"
         android:elevation="4dp">
 
         <EditText
