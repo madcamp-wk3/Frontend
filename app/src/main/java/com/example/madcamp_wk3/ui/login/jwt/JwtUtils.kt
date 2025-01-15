@@ -27,6 +27,10 @@ object JwtUtils {
         return getPreferences(context).getBoolean(KEY_IS_LOGGED_IN, false)
     }
 
+    fun saveUsernameToPreferences(username : String){
+
+    }
+
     fun logout(context: Context) {
         val editor = getPreferences(context).edit()
         editor.remove(KEY_JWT_TOKEN)  // JWT 제거

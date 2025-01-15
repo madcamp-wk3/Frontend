@@ -57,11 +57,7 @@ class HomeFragment : Fragment() {
 
 
         // 추가 버튼 설정 (예: 새로운 섹션 추가)
-        binding.outerRecyclerviewAddBtn.setOnClickListener {
-            val newSection = Section("새로운 섹션", listOf())
-            sectionList.add(newSection)
-            outerAdapter.notifyItemInserted(sectionList.size - 1)
-        }
+
         return root
 
     }
