@@ -19,5 +19,7 @@ interface ApiService {
 
     @POST("/signIN")
     fun signup(@Body requst : Login.SignupRequest) : Call<Login.SignupResponse>
+    @GET("/users/news")  // Your new API endpoint
+    fun getSingleNews(): Call<NewsResponse>
 
 }
