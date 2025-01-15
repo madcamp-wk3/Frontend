@@ -81,7 +81,7 @@
 
     <android.widget.Button
         android:id="@+id/signUpBtn"
-        android:layout_width="181dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginBottom="252dp"
         android:text="Econ이 처음이신가요?"
