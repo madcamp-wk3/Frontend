@@ -7,4 +7,7 @@ import retrofit2.http.GET
 interface ApiService {
     @GET("/news") // Replace with your actual API endpoint
     fun getNewsSections(): Call<List<Section>>
+    @GET("/users/news")  // Your new API endpoint
+    fun getSingleNews(): Call<NewsResponse>
+
 }
