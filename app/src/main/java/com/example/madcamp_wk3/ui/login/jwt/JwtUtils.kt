@@ -29,8 +29,9 @@ object JwtUtils {
 
     fun logout(context: Context) {
         val editor = getPreferences(context).edit()
-        editor.remove(KEY_JWT_TOKEN)
-        editor.putBoolean(KEY_IS_LOGGED_IN, false)
+        editor.remove(KEY_JWT_TOKEN)  // JWT 제거
+        editor.putBoolean(KEY_IS_LOGGED_IN, false)  // 로그인 상태 초기화
         editor.apply()
     }
 }
+

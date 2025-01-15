@@ -307,7 +307,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleSignInSuccess(credential: SignInCredential) {
         val idToken = credential.googleIdToken
-        val email = credential.id
+        val username = credential.id
         val displayName = credential.displayName
 
         if (idToken != null) {
@@ -356,6 +356,7 @@ class LoginActivity : AppCompatActivity() {
 
                     if (jwtToken != null) {
                         JwtUtils.saveJwtToken(this@LoginActivity, jwtToken) // JWT 저장
+
                         Toast.makeText(this@LoginActivity, "Welcome, ${loginResponse.username}!", Toast.LENGTH_SHORT).show()
                         finishLogin() // 로그인 성공 후 메인 화면으로 이동
                     } else {
