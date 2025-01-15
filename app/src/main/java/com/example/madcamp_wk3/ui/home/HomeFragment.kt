@@ -66,11 +66,6 @@ class HomeFragment : Fragment() {
 
     }
 
-
-
-
-
-
     private fun fetchNewsData() {
         RetrofitClient.instance.getNewsSections().enqueue(object : Callback<List<Section>> {
             override fun onResponse(call: Call<List<Section>>, response: Response<List<Section>>) {

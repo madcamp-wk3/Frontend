@@ -29,6 +29,8 @@ class InnerRecyclerviewAdapter(private val itemList: List<NewsItem> = emptyList(
         Glide.with(holder.imageView.context)
             .load(news.imageUrl)
             .into(holder.imageView)
+        news.news_url
+
     }
 
     override fun getItemCount(): Int {
