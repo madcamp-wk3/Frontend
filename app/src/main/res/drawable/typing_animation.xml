@@ -1,0 +1,5 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+    <item android:drawable="@android:drawable/presence_invisible" android:duration="300" />
+    <item android:drawable="@android:drawable/presence_online" android:duration="300" />
+    <item android:drawable="@android:drawable/presence_busy" android:duration="300" />
+</animation-list>

@@ -21,7 +21,7 @@
         android:layout_above="@id/bottomNavigationView"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="@android:color/white"
+        android:background="@drawable/rounded_transparent_edge"
         android:elevation="4dp">
 
         <EditText
@@ -29,13 +29,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Type a message" />
+            android:hint="Type a message"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send" />
+            android:text="Send"
+            android:visibility="gone" />  <!-- Initially Hidden -->
     </LinearLayout>
 
     <!-- BottomNavigationView -->
@@ -43,6 +47,7 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:layout_alignParentBottom="true"
          />
 </RelativeLayout>
