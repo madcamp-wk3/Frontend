@@ -15,6 +15,9 @@ class MyPageActivity : AppCompatActivity() {
         binding.logoutBtn.setOnClickListener {
             logout()
         }
+
+
+        //binding.userName.text="${}님 안녕하세요!"
     }
 
     private fun logout(){
