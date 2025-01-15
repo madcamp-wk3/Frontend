@@ -44,9 +44,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-
-
-
         // RecyclerView 설정
         binding.outerRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         outerAdapter = OuterRecyclerviewAdapter(sectionList)
