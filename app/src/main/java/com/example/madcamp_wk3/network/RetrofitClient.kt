@@ -5,7 +5,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
 object RetrofitClient {
-    private const val BASE_URL = "https://fastapi-app-313452959284.us-central1.run.app" // Replace with your backend URL
+    //private const val BASE_URL = "https://fastapi-app-313452959284.us-central1.run.app" // Replace with your backend URL
+    private const val BASE_URL = "http://10.0.2.2:8000" // Replace with your backend URL
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {

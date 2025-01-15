@@ -216,6 +216,7 @@ import com.android.volley.toolbox.Volley
 import com.example.madcamp_wk3.MainActivity
 import com.example.madcamp_wk3.databinding.FragmentLoginBinding
 import com.example.madcamp_wk3.network.RetrofitClient
+import com.example.madcamp_wk3.utils.JwtUtils
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -351,10 +352,15 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("LoginService heeju", "api 호출")
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    Toast.makeText(this@LoginActivity, "Welcome, ${loginResponse?.username}!", Toast.LENGTH_SHORT).show()
-                    Log.d("LoginService heeju", "Response: ${loginResponse?.message}")
-                    finishLogin()
+                    val jwtToken = loginResponse?.access_token // 서버에서 받은 JWT
 
+                    if (jwtToken != null) {
+                        JwtUtils.saveJwtToken(this@LoginActivity, jwtToken) // JWT 저장
+                        Toast.makeText(this@LoginActivity, "Welcome, ${loginResponse.username}!", Toast.LENGTH_SHORT).show()
+                        finishLogin() // 로그인 성공 후 메인 화면으로 이동
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Token not received", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
                     Toast.makeText(this@LoginActivity, "Invalid username or password", Toast.LENGTH_SHORT).show()
                     Log.e("LoginService heeju", "Error: ${response.errorBody()?.string()}")
@@ -382,5 +388,6 @@ class LoginActivity : AppCompatActivity() {
     private fun finishLogin(){
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()  // 현재 activity 종료
     }
 }
