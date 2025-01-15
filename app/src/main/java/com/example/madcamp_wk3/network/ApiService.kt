@@ -10,6 +10,9 @@ import retrofit2.http.POST
 interface ApiService {
     @GET("/news") // Replace with your actual API endpoint
     fun getNewsSections(): Call<List<Section>>
+    @GET("/users/news")  // Your new API endpoint
+    fun getSingleNews(): Call<NewsResponse>
+
 
     @POST("/login")
     fun login(@Body request: Login.LoginRequest): Call<Login.LoginResponse>

@@ -32,11 +32,11 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    replaceFragment(HomeFragment())
+                    navController.navigate(R.id.navigation_home)  // ✅ Correct
                     true
                 }
                 R.id.navigation_dashboard -> {
-                    replaceFragment(DashboardFragment())
+                    navController.navigate(R.id.navigation_dashboard)  // ✅ Correct
                     true
                 }
                 R.id.navigation_notifications -> {

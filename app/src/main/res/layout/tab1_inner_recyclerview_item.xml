@@ -1,5 +1,4 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,6 +10,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:cardCornerRadius="15dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,32 +18,32 @@
             android:layout_height="match_parent"
             android:padding="4dp">
             <!-- 뉴스 이미지 -->
-            <!-- 뉴스 제목 -->
             <ImageView
                 android:id="@+id/NewsImage"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- 뉴스 제목 -->
             <TextView
                 android:id="@+id/NewsTitle"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:breakStrategy="simple"
                 android:ellipsize="none"
-                android:singleLine="false"
+                android:inputType="textMultiLine"
                 android:maxLines="3"
                 android:scrollHorizontally="false"
+                android:singleLine="false"
                 android:text="뉴스 제목"
                 android:textStyle="bold"
-                android:inputType="textMultiLine"
-                android:breakStrategy="simple"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.508"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/NewsImage" />
+            <!-- 뉴스 제목 -->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
