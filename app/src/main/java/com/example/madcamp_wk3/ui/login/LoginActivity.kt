@@ -352,7 +352,8 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("LoginService heeju", "api 호출")
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    val jwtToken = loginResponse?.access_token // 서버에서 받은 JWT
+                    val jwtToken = loginResponse?.access_token
+                    val username = loginResponse?.username
 
                     if (jwtToken != null) {
                         JwtUtils.saveJwtToken(this@LoginActivity, jwtToken) // JWT 저장
