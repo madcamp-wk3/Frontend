@@ -1,6 +1,7 @@
 package com.example.madcamp_wk3.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,18 +75,42 @@ class HomeFragment : Fragment() {
         RetrofitClient.instance.getNewsSections().enqueue(object : Callback<List<Section>> {
             override fun onResponse(call: Call<List<Section>>, response: Response<List<Section>>) {
                 if (response.isSuccessful) {
-                    response.body()?.let {
-                        sectionList.clear()
-                        sectionList.addAll(it)
-                        outerAdapter.notifyDataSetChanged()
+                    val rawResponse = response.body()
+
+                    // ✅ Log the raw response object
+                    Log.d("HomeFragment", "🔍 Raw Response Object: $rawResponse")
+
+                    if (rawResponse == null) {
+                        Log.e("HomeFragment", "❌ API returned NULL instead of list")
+                        return
                     }
+
+                    // ✅ Log JSON response before parsing
+                    val rawJson = response.errorBody()?.string()
+                    Log.d("HomeFragment", "📜 Full JSON Response: $rawJson")
+
+                    // ✅ Check how the news items are structured
+                    rawResponse.forEachIndexed { index, section ->
+                        Log.d("HomeFragment", "📰 Section [$index]: ${section.title}")
+
+                        section.newsItems?.forEachIndexed { newsIndex, newsItem ->
+                            Log.d("HomeFragment", "  🗞️ News [$newsIndex]: ${newsItem.title}")
+                            Log.d("HomeFragment", "  📄 Summary: ${newsItem.summary}")
+                            Log.d("HomeFragment", "  🖼️ Image URL: ${newsItem.imageUrl ?: "No Image"}")
+                        }
+                    }
+
+                    sectionList.clear()
+                    sectionList.addAll(rawResponse)
+                    outerAdapter.notifyDataSetChanged()
+
                 } else {
-                    Toast.makeText(requireContext(), "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    Log.e("HomeFragment", "❌ API Error: ${response.code()} - ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<List<Section>>, t: Throwable) {
-                Toast.makeText(requireContext(), "Failed to fetch data: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("HomeFragment", "❌ Network Error: ${t.message}")
             }
         })
     }
